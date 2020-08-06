@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ball : MonoBehaviour {
+public class ball : MonoBehaviour
+{
 
     public float speed = 5.0f;
     private Rigidbody myRigidbody;
@@ -18,10 +19,14 @@ public class ball : MonoBehaviour {
 
     private GameObject cleartext;
 
-   
+    GameObject[] tagObjects;
 
-	// Use this for initialization
-	void Start () {
+
+
+
+    // Use this for initialization
+    void Start()
+    {
 
         this.GameOvertext = GameObject.Find("GameOvertext");
 
@@ -31,10 +36,11 @@ public class ball : MonoBehaviour {
 
         myRigidbody = this.GetComponent<Rigidbody>();
         myRigidbody.AddForce((transform.forward + transform.right) * speed, ForceMode.VelocityChange);
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
 
         if (this.transform.position.z < this.visiblePosZ)
         {
@@ -42,15 +48,30 @@ public class ball : MonoBehaviour {
         }
 
     }
-    private void OnCollisionEnter(Collision other)
+
+    void Check(string tagname)
     {
-        Debug.Log(other.gameObject.tag);
+        tagObjects = GameObject.FindGameObjectsWithTag("blocktag");
+        Debug.Log(tagObjects.Length); //tagObjects.Lengthはオブジェクトの数
+        if (tagObjects.Length == 2)
+        {
+            this.cleartext.GetComponent<Text>().text = "clear";
+        }
+    }
+    void OnCollisionEnter(Collision other)
+    {
+
         if (other.gameObject.tag == "blocktag")
         {
-            
-                    this.cleartext.GetComponent<Text>().text = "clear";
-                }
-            }
+
+            this.cleartext.GetComponent<Text>().text = "clear";
         }
+        if (other.gameObject.tag == "blocktag")
+        {
+            GetComponent<ParticleSystem>().Play();
+        }
+    }
+}
+        
     
 

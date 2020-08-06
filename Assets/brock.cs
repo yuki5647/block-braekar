@@ -15,10 +15,17 @@ public class brock : MonoBehaviour {
 	}
     private void OnCollisionEnter(Collision collision)
     {
+
+
         Destroy(gameObject);
 
     }
-   
+    void OnTriggerEnter(Collider other)
+    {
+        GetComponent<ParticleSystem>().Play();
+    }
+
+
 
 
 }
